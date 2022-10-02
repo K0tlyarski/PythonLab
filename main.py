@@ -15,11 +15,11 @@ header = {
 'Accept-Encoding': 'gzip, deflate, lzma, sdch',
 'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4'
 }
-def create_directory(dir_name):
+def create_directory(directory_name):
     if not os.path.isdir('dataset'):
         os.mkdir('dataset')
-    if not os.path.exists(f'dataset/{dir_name}'):
-        os.mkdir(f'dataset/{dir_name}')
+    if not os.path.exists(f'dataset/{directory_name}'):
+        os.mkdir(f'dataset/{directory_name}')
 
 def create_link(request_name):
     for page_number in range(1, 3):
@@ -37,8 +37,16 @@ def create_link(request_name):
             yield (image_link)
 
 def download_image(image_link, image_name, folder_name):
-    response = requests.get(image_link).content
+    response = requests.get(image_link, headers = header).content
     file = open(f"dataset/{folder_name}/{image_name}.jpg", "wb")
     with open(f"dataset/{folder_name}/{image_name}.jpg", "wb") as handler:
         handler.write(response)
 
+def run(animal_name):
+    count = 0
+    create_directory(animal_name)
+    for url in create_link(animal_name):
+        download_image(url, str(count).zfill(4), animal_name)
+        count += 1
+        sleep(2)
+        print(count, ' downloaded')
