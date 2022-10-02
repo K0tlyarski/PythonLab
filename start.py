@@ -1,4 +1,4 @@
-from main import *
+from main import run
 from time import sleep
 
 if __name__ == '__main__':
