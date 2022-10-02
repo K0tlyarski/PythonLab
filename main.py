@@ -28,10 +28,17 @@ def create_link(request_name):
         link = f'https://yandex.ru/images/search?text={request_name}&p={page_number}'
         responce = requests.get(link, headers = header).text
 
-        sleep(1)
+        sleep(2)
         soup = BeautifulSoup(responce, 'lxml')
         image_block = soup.find_all('img', class_='serp-item__thumb justifier__thumb')
         for image in image_block:
             image_link = 'https:' + image.get('src')
             print(image_link)
             yield (image_link)
+
+def download_image(image_link, image_name, folder_name):
+    response = requests.get(image_link).content
+    file = open(f"dataset/{folder_name}/{image_name}.jpg", "wb")
+    with open(f"dataset/{folder_name}/{image_name}.jpg", "wb") as handler:
+        handler.write(response)
+
