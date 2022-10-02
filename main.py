@@ -22,7 +22,7 @@ def create_directory(directory_name):
         os.mkdir(f'dataset/{directory_name}')
 
 def create_link(request_name):
-    for page_number in range(1, 31):
+    for page_number in range(1, 35):
         print(page_number, " page")
         request_name.replace(' ', '%20')
         link = f'https://yandex.ru/images/search?text={request_name}&p={page_number}'
